@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Web Security 101 | William Durand</title>
+        <link rel="stylesheet" href="css/reveal-no-icons.min.css">
+        <link rel="stylesheet" href="revealjs/css/theme/moon.css" id="theme">
+        <link rel="stylesheet" href="fontawesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/custom.css">
+        <script>
+            document.write('<link rel="stylesheet" href="revealjs/css/print/' +
+                (window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper') +
+                '.css" type="text/css" media="print">'
+            );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1 class="title">Web Security 101</h1>
+                    <em>William Durand</em>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # OWASP Top 10
+
+                            1. Injection
+                            2. Broken Authentication and Session Management
+                            3. Cross-Site Scripting (XSS)
+                            4. Insecure Direct Object References
+                            5. Security Misconfiguration
+                            6. Sensitive Data Exposure
+                            7. Missing Function Level Access Control
+                            8. Cross-Site Request Forgery (CSRF)
+                            9. Using Components with Known Vulnerabilities
+                            10. Unvalidated Redirects and Forwards
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 1. Injection
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 2. Broken Authentication and Session Management
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 3. Cross-Site Scripting (XSS)
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 4. Insecure Direct Object References
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 5. Security Misconfiguration
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 6. Sensitive Data Exposure
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 7. Missing Function Level Access Control
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 8. Cross-Site Request Forgery (CSRF)
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 9. Using Components with Known Vulnerabilities
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 10. Unvalidated Redirects and Forwards
+                        </script>
+                    </section>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Thank You.
+
+                        ### Questions?
+
+                        <br><br>
+                        <br><br>
+                        <ul class="me">
+                            <li>
+                                <p><i class="fa fa-globe"></i><a href="http://williamdurand.fr" title="website">williamdurand.fr</a></p>
+                            </li>
+                            <li>
+                                <p><i class="fa fa-github"></i><a href="https://github/willdurand" title="github">github.com/willdurand</a></p>
+                            </li>
+                            <li>
+                                <p><i class="fa fa-twitter"></i><a href="https://twitter.com/couac" title="twitter">twitter.com/couac</a></p>
+                            </li>
+                        </ul>
+                    </script>
+                </section>
+            </div>
+        </div>
+        <script src="revealjs/lib/js/head.min.js"></script>
+        <script src="revealjs/js/reveal.min.js"></script>
+        <script>
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme,
+                transition: Reveal.getQueryHash().transition || 'concave',
+
+                dependencies: [
+                    { src: 'revealjs/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'revealjs/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'revealjs/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'revealjs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    //{ src: 'js/pageNumbers.js' },
+                ]
+            });
+        </script>
+    </body>
+</html>
