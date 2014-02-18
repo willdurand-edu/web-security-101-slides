@@ -11,3 +11,9 @@
 .me li a {
     margin-left: 15px;
 }
+
+img.no-border {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: none !important;
+}

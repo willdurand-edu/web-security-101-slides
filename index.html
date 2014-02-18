@@ -28,15 +28,24 @@
                         * OWASP
                     </script>
                 </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        # ...
-                    </script>
-                </section>
                 <section>
                     <section data-markdown>
                         <script type="text/template">
                             # Open Web Application Security Project
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # OWASP
+
+                            **Not-for-profit** organization focused on **improving the<br>security**
+                            of software.
+
+                            **Documentation** and **tools** to help learn about security,
+                            <br>and protect your applications.
+
+                            <br>
+                            <i class="fa-globe"></i> [https://www.owasp.org](https://www.owasp.org)
                         </script>
                     </section>
                     <section data-markdown>
@@ -64,7 +73,64 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            #
+                            ## In A Nutshell
+
+                            * Occurs when an application sends untrusted data to an interpreter
+
+                            * Attacker sends simple text-based attacks that exploit the syntax
+                            of the targeted interpreter
+
+                            * Almost any source of data can be an injection vector (`GET`/`POST`
+                            parameters, `PATH_INFO`, HTTP headers, uploaded **files**)
+
+                            * Can result in data loss or corruption, lack of accountability,
+                            <br>or denial of access
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## SQL Injection
+
+                            Unescaped user input causes the premature end of a SQL query,
+                            <br>and allows a malicious query to be executed:
+
+                                $query = 'SELECT * FROM foo WHERE bar = "' . $_GET['bar'] . '"';
+                                // ?bar=nope" OR 1 = 1 --
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## I/O Injection
+
+                            Filesystem access combined to unvalidated user input allows
+                            attackers to access private files:
+
+                                echo file_get_contents($_GET['file']);
+                                // ?file=../private.conf
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Remote Code Execution
+
+                            Unsafe input is dynamically executed:
+
+                                exec('rm -rf upload/' . $_GET['file']);
+                                // ?file=*; rm -rf /;
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## How To Prevent Injections?
+
+                            ### Escape, escape, escape!
+
+                            * SQL: **Prepared Statements** (PDO)
+                            * Input/Output: `basename()`, `realpath()`
+                            * System calls: `shell_escape_args()`
+                            * Validate **all** user input
+                            * Positive or **white list** input validation
+                            * Avoid `eval()` or `exec()` methods
                         </script>
                     </section>
                 </section>
@@ -74,11 +140,117 @@
                             # 2. Broken Authentication and Session Management
                         </script>
                     </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## In A Nutshell
+
+                            * Attackers use leaks or flaws in the authentication or session
+                            management functions (e.g. exposed accounts, passwords, session ids)
+                            to impersonate users
+
+                            * May allows some or even all accounts to be attacked. Once successful,
+                            the attacker can do anything the victim could do
+
+                            * Privileged accounts are frequentily targeted
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## How To Prevent This?
+
+                            * **Hash** passwords properly (bcrypt/Blowfish please)
+                            * **Salt** passwords
+                            * Use the [Password Hashing API](http://www.php.net/manual/en/book.password.php) in PHP
+                            * Never ever store passwords in clear text!
+                            * Don't put session IDs in URLs
+                            * Regenerate ids when authentication changes
+                            * Allow session IDs to timeout/expire
+                            * HTTPS
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## PHP Session Configuration
+
+                                ; Helps mitigate XSS by telling the browser not to expose the cookie to
+                                ; client side scripting such as JavaScript
+                                session.cookie_httponly = 1
+
+                                ; Prevents session fixation by making sure that PHP only uses cookies for
+                                ; sessions and disallow session ID passing as a GET parameter
+                                session.use_only_cookies = 1
+
+                                ; Better entropy source
+                                ; Evades insufficient entropy vulnerabilities
+                                session.entropy_file = "/dev/urandom"
+                                ; `session.entropy_length=32` might help against brut-force attacks too!
+
+                                ; Smaller exploitation window for XSS/CSRF/Clickjacking...
+                                session.cookie_lifetime = 0
+
+                                ; Ensures session cookies are only sent over secure connections (it requires
+                                ; a valid SSL certificate)
+                                ; Related to OWASP 2013-A6-Sensitive Data Exposure
+                                session.cookie_secure = 1
+                        </script>
+                    </section>
                 </section>
                 <section>
                     <section data-markdown>
                         <script type="text/template">
                             # 3. Cross-Site Scripting (XSS)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## In A Nutshell
+
+                            * The most prevalent web application security flaw
+
+                            * Occurs when an application includes user supplied data in a
+                            page sent to the browser without properly validating or escaping
+                            that content
+
+                            * Attacker sends text-based attack scripts that exploit the interpreter
+                            in the browser
+
+                            * Almost any source of data can be an attack vector, including internal
+                            sources such as data from the database, but also URLs, form fields
+
+                            * Can result in session hijacking, malicious scripts execution, website
+                            defacement
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## How To Prevent XSS?
+
+                            ### Do not trust anyone!
+
+                            * **Escape** all untrusted data based on the HTML context the data
+                            will be place into (`htmlspecialchars()`)
+                            * **Whitelist** input validation
+                            * Consider **auto-sanitization libraries** ([HTML Purifier](http://htmlpurifier.org/))
+                            * Don't even trust admins
+                            * Secure your cookies
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Content Security Policy (CSP)
+
+                            Defines the `Content-Security-Policy` HTTP header
+                            <br>that allows you to create a **whitelist of sources of
+                            trusted content**, and **instructs the browser** to only
+                            execute or<br>render resources from those sources.
+                            <br>
+                            <br>
+
+                                Content-Security-Policy: script-src 'self' https://apis.google.com
+
+                            <img src="images/csp.png" class="no-border" />
+
+                            <i class="fa fa-book"></i> [An Introduction to Content Security Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/)
                         </script>
                     </section>
                 </section>
@@ -88,11 +260,68 @@
                             # 4. Insecure Direct Object References
                         </script>
                     </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## In A Nutshell
+
+                            * Expose a reference to an internal implementation object without
+                            verifying authorization
+
+                            * Attacker, who is an authorized system user,
+                            changes a parameter value (URL, `GET`/`POST`
+                            parameters, cookies) that directly refers to a
+                            system object to another object the user is not
+                            authorized for
+
+                            * Can compromise all the data that can be
+                            referenced by the vulnerable parameter.  Unless
+                            object references are unpredictable, it is easy for
+                            an attacker to access the available data of that
+                            type
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## How To Prevent This?
+
+                            * Use per user or session indirect object references
+                            * Always check the user credentials before allowing access to restricted
+                            content
+                        </script>
+                    </section>
                 </section>
                 <section>
                     <section data-markdown>
                         <script type="text/template">
                             # 5. Security Misconfiguration
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## In A Nutshell
+
+                            * Attacker accesses default accounts, unused pages,
+                            unpatched flaws, unprotected files and directories,
+                            etc. to gain unauthorized access to or knowledge of the
+                            system
+
+                            * Can completely compromise the system without you knowing it.
+                            All of your data can be stolen or modified slowly over time.
+                            Recovery costs can be expensive!
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## How To Prevent This?
+
+                            * Have a repeatable **hardening process** that makes it fast and easy
+                            to deploy another environment that is properly locked down
+                            * Have a process for **keeping on top of updates and patches**
+                            * strong application architecture that provides **effective**, **secure**
+                            separation between components
+                            * Consider running scans and doing audits periodically
+                            * Disable or fix default accounts
+                            * Disable unnecessary services
                         </script>
                     </section>
                 </section>
@@ -102,6 +331,11 @@
                             # 6. Sensitive Data Exposure
                         </script>
                     </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        </script>
+                    </section>
+
                 </section>
                 <section>
                     <section data-markdown>
