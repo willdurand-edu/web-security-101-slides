@@ -17,3 +17,11 @@ img.no-border {
     box-shadow: none !important;
     background: none !important;
 }
+
+.invert-color h1 {
+    color: #fff !important;
+}
+
+p.left {
+    text-align: left !important;
+}

@@ -3,7 +3,7 @@
     <head>
         <title>Web Security 101 | William Durand</title>
         <link rel="stylesheet" href="reveal.js/css/reveal.min.css">
-        <link rel="stylesheet" href="reveal.js/css/theme/moon.css" id="theme">
+        <link rel="stylesheet" href="reveal.js/css/theme/beige.css" id="theme">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/fix-fontawesome-reveal-js.css">
         <link rel="stylesheet" href="css/custom.css">
@@ -59,7 +59,7 @@
                     </section>
                 </section>
                 <section>
-                    <section data-markdown>
+                    <section data-markdown data-background="images/injection.jpg">
                         <script type="text/template">
                             # 1. Injection
                         </script>
@@ -68,48 +68,57 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * Occurs when an application sends untrusted data to an interpreter
+                            * When an application **sends untrusted data to an interpreter**;
 
-                            * Attacker sends simple text-based attacks that exploit the syntax
-                            of the targeted interpreter
+                            * Attacker sends simple **text-based attacks** that exploit the syntax
+                            of the targeted interpreter;
 
-                            * Almost any source of data can be an injection vector (`GET`/`POST`
-                            parameters, `PATH_INFO`, HTTP headers, uploaded **files**)
+                            * Almost **any source of data can be an attack vector**:
 
-                            * Can result in data loss or corruption, lack of accountability,
-                            <br>or denial of access
+                                - `GET`/`POST` parameters
+                                - `PATH_INFO`
+                                - HTTP headers
+                                - uploaded **files**
+
+                            * Can result in **data loss or corruption** or denial of access.
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## SQL Injection
 
-                            Unescaped user input causes the premature end of a SQL query,
+                            Unescaped user input causes the **premature end of a SQL query**,
                             <br>and allows a malicious query to be executed:
+                            <br>
+                            <br>
 
                                 $query = 'SELECT * FROM foo WHERE bar = "' . $_GET['bar'] . '"';
-                                // ?bar=nope" OR 1 = 1 --
+                                // example.org?bar=nope" OR 1 = 1 --
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## I/O Injection
 
-                            Filesystem access combined to unvalidated user input allows
-                            attackers to access private files:
+                            Filesystem access combined to unvalidated user input
+                            <br>allows attackers to **access private files**:
+                            <br>
+                            <br>
 
                                 echo file_get_contents($_GET['file']);
-                                // ?file=../private.conf
+                                // example.org?file=../private.conf
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## Remote Code Execution
 
-                            Unsafe input is dynamically executed:
+                            Unsafe input is **dynamically executed**:
+                            <br>
+                            <br>
 
-                                exec('rm -rf upload/' . $_GET['file']);
-                                // ?file=*; rm -rf /;
+                                exec('rm -rf web/upload/' . $_GET['file']);
+                                // example.org?file=*; rm -rf /;
                         </script>
                     </section>
                     <section data-markdown>
@@ -118,17 +127,17 @@
 
                             ### Escape, escape, escape!
 
-                            * SQL: **Prepared Statements** (PDO)
-                            * Input/Output: `basename()`, `realpath()`
-                            * System calls: `shell_escape_args()`
-                            * Validate **all** user input
-                            * Positive or **white list** input validation
-                            * Avoid `eval()` or `exec()` methods
+                            * SQL: **Prepared Statements** (PDO);
+                            * Input/Output: `basename()`, `realpath()`;
+                            * System calls: `shell_escape_args()`;
+                            * Validate **all** user input;
+                            * Positive or **white-list** input validation;
+                            * Avoid `eval()` or `exec()` functions.
                         </script>
                     </section>
                 </section>
                 <section>
-                    <section data-markdown>
+                    <section data-markdown data-background="images/broken-padlock.jpg" class="invert-color">
                         <script type="text/template">
                             # 2. Broken Authentication and Session Management
                         </script>
@@ -137,28 +146,27 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * Attackers use leaks or flaws in the authentication or session
-                            management functions (e.g. exposed accounts, passwords, session ids)
-                            to impersonate users
+                            * Attackers **use leaks or flaws in the authentication** or **session
+                            management functions** to impersonate users;
 
-                            * May allows some or even all accounts to be attacked. Once successful,
-                            the attacker can do anything the victim could do
+                            * May allows **some or even all accounts to be attacked**. Once successful,
+                            the **attacker can do anything the victim could do**.
 
-                            * Privileged accounts are frequentily targeted
+                            * Privileged accounts are frequentily targeted!
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## How To Prevent This?
 
-                            * **Hash** passwords properly (bcrypt/Blowfish please)
-                            * **Salt** passwords
-                            * Use the [Password Hashing API](http://www.php.net/manual/en/book.password.php) in PHP
-                            * Never ever store passwords in clear text!
-                            * Don't put session IDs in URLs
-                            * Regenerate ids when authentication changes
-                            * Allow session IDs to timeout/expire
-                            * HTTPS
+                            * **Hash** passwords properly (**bcrypt**/**Blowfish** please);
+                            * **Salt** passwords;
+                            * Use the [Password Hashing API](http://www.php.net/manual/en/book.password.php) in PHP;
+                            * **Never** ever **store passwords in clear text**;
+                            * Don't put session IDs in URLs;
+                            * Regenerate IDs when authentication changes;
+                            * Allow session IDs to timeout/expire;
+                            * Use HTTPS.
                         </script>
                     </section>
                     <section data-markdown>
@@ -176,13 +184,15 @@
                                 ; Better entropy source
                                 ; Evades insufficient entropy vulnerabilities
                                 session.entropy_file = "/dev/urandom"
-                                ; `session.entropy_length=32` might help against brut-force attacks too!
+
+                                ; Might help against brut-force attacks too!
+                                session.entropy_length=32
 
                                 ; Smaller exploitation window for XSS/CSRF/Clickjacking...
                                 session.cookie_lifetime = 0
 
-                                ; Ensures session cookies are only sent over secure connections (it requires
-                                ; a valid SSL certificate)
+                                ; Ensures session cookies are only sent over secure connections
+                                ; (it requires a valid SSL certificate)
                                 ; Related to OWASP 2013-A6-Sensitive Data Exposure
                                 session.cookie_secure = 1
                         </script>
@@ -198,20 +208,22 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * The most prevalent web application security flaw
+                            * The most prevalent web application security flaw!
 
-                            * Occurs when an application includes user supplied data in a
-                            page sent to the browser without properly validating or escaping
-                            that content
+                            * When an **application includes user supplied
+                            data** in a page sent to the browser **without
+                            properly validating or escaping that content**;
 
-                            * Attacker sends text-based attack scripts that exploit the interpreter
-                            in the browser
+                            * Attacker sends **text-based attack scripts** that
+                            exploit the interpreter in the browser;
 
-                            * Almost any source of data can be an attack vector, including internal
-                            sources such as data from the database, but also URLs, form fields
+                            * Almost any source of data can be an attack
+                            vector, including internal sources such as **data
+                            from the database**, but also **URLs**, **form
+                            fields**;
 
-                            * Can result in session hijacking, malicious scripts execution, website
-                            defacement
+                            * Can result in **session hijacking**, malicious
+                            scripts execution, website **defacement**.
                         </script>
                     </section>
                     <section data-markdown>
@@ -221,11 +233,11 @@
                             ### Do not trust anyone!
 
                             * **Escape** all untrusted data based on the HTML context the data
-                            will be place into (`htmlspecialchars()`)
-                            * **Whitelist** input validation
-                            * Consider **auto-sanitization libraries** ([HTML Purifier](http://htmlpurifier.org/))
-                            * Don't even trust admins
-                            * Secure your cookies
+                            will be place into: `htmlspecialchars()`;
+                            * **Whitelist** input validation;
+                            * Consider **auto-sanitization libraries** ([HTML Purifier](http://htmlpurifier.org/));
+                            * Don't even trust admins;
+                            * Secure your cookies (encrypt or sign them).
                         </script>
                     </section>
                     <section data-markdown>
@@ -243,6 +255,7 @@
 
                             <img src="images/csp.png" class="no-border" />
 
+                            <br>
                             <i class="fa fa-book"></i> [An Introduction to Content Security Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/)
                         </script>
                     </section>
@@ -257,29 +270,30 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * Expose a reference to an internal implementation object without
-                            verifying authorization
+                            * Expose a reference to an internal implementation
+                            object **without verifying authorization**;
 
-                            * Attacker, who is an authorized system user,
+                            * Attacker, who is an **authorized system user**,
                             changes a parameter value (URL, `GET`/`POST`
                             parameters, cookies) that directly refers to a
                             system object to another object the user is not
-                            authorized for
+                            authorized for;
 
-                            * Can compromise all the data that can be
-                            referenced by the vulnerable parameter.  Unless
-                            object references are unpredictable, it is easy for
-                            an attacker to access the available data of that
-                            type
+                            * Can **compromise all the data** that can be
+                            referenced by the vulnerable parameter;
+
+                            * Unless object references are unpredictable, it is
+                            easy for an attacker to access the available data
+                            of that type.
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## How To Prevent This?
 
-                            * Use per user or session indirect object references
-                            * Always check the user credentials before allowing access to restricted
-                            content
+                            * Use **per user or session indirect object references**;
+                            * Always **check the user credentials before
+                            allowing<br>access** to restricted content.
                         </script>
                     </section>
                 </section>
@@ -293,14 +307,15 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * Attacker accesses default accounts, unused pages,
-                            unpatched flaws, unprotected files and directories,
-                            etc. to gain unauthorized access to or knowledge of the
-                            system
+                            * Attacker accesses **default accounts**, **unused pages**,
+                            **unpatched flaws**, **unprotected files** and directories,
+                            etc.<br>to gain unauthorized access to or knowledge of the
+                            system;
 
-                            * Can completely compromise the system without you knowing it.
-                            All of your data can be stolen or modified slowly over time.
-                            Recovery costs can be expensive!
+                            * Can completely **compromise the system without you knowing it**.
+                            **All of your data can be stolen** or modified<br>slowly over time;
+
+                            * Recovery costs can be expensive!
                         </script>
                     </section>
                     <section data-markdown>
@@ -308,18 +323,19 @@
                             ## How To Prevent This?
 
                             * Have a repeatable **hardening process** that makes it fast and easy
-                            to deploy another environment that is properly locked down
-                            * Have a process for **keeping on top of updates and patches**
-                            * strong application architecture that provides **effective**, **secure**
-                            separation between components
-                            * Consider running scans and doing audits periodically
-                            * Disable or fix default accounts
-                            * Disable unnecessary services
+                            to deploy another environment that is properly locked down;
+                            * Have a process for **keeping on top of updates and patches**;
+                            * Build a **strong application architecture** that
+                            provides **effective** and **secure** separation
+                            between components;
+                            * Consider running **scans** and doing **audits** periodically;
+                            * **Disable** or fix **default accounts**;
+                            * **Disable unnecessary services**.
                         </script>
                     </section>
                 </section>
                 <section>
-                    <section data-markdown>
+                    <section data-markdown data-background="images/sensitive-data-exposure.jpg" class="invert-color">
                         <script type="text/template">
                             # 6. Sensitive Data Exposure
                         </script>
@@ -331,58 +347,54 @@
                             * Failure frequently compromises all data that
                             should have been protected. Typically, this
                             information includes sensitive data such as health
-                            records, credentials, personal data, credit cards,
-                            etc.
+                            records, credentials, personal data, credit cards;
 
-                            * Attackers typically don't break crypto directly.
-                            They break something else, such as steal keys, do
-                            man-in-the-middle attacks, or steal clear text data
-                            off the server, while in transit, or from the
-                            user’s browser
+                            * Attackers **don't break crypto directly**, but
+                            rather break something else, such as **steal keys**,
+                            or do **Man-In-The-Middle attacks**;
 
-                            * Attacker monitors network traffic of your users, maybe
-                            in public places (Starbucks), maybe backend connections,
-                            maybe inside your network!
+                            * Attackers **monitorsnetwork traffic** of your users,
+                            maybe in public places (Starbucks!!), maybe backend
+                            connections, maybe inside your network!
 
-                            * Sensitive data deserves extra protection such as
-                            encryption at rest or in transit, special precautions
-                            when exchanged with the browser
+                            * **Sensitive data deserves extra protection** such as
+                            **encryption** at rest or in transit, and special
+                            **precautions when exchanged with the browser**!
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## Insecure Cryptographic Storage
 
-                            * Encrypt sensitive data
-                            * Encrypt offsite backups
-                            * Use strong standard encryption algorithms
-                            * Change your (strong) encryption key regularly
-                            * Don't store sensitive data unnecessarily
-                            * Ensure passwords are stored with an algorithm
-                            specifically designed for password protection
-                            * Salt your passwords
-                            * Disable autocomplete on forms collecting
-                            sensitive data and disable caching for pages that
-                            contain sensitive data
-                            * Check with a crypto expert
+                            * **Encrypt** sensitive data;
+                            * **Encrypt** offsite backups;
+                            * Use **strong standard encryption algorithms**;
+                            * Change your (strong) encryption key regularly;
+                            * Don't store sensitive data unnecessarily;
+                            * **Salt** your passwords (yep, again);
+                            * **Disable autocomplete on forms** collecting
+                            sensitive data;
+                            * **Disable caching for pages that contain
+                            sensitive data**;
+                            * Check with a crypto expert.
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## Insufficient Transport Layer Protection
+                            ## Insufficient Transport<br>Layer Protection
 
-                            * Require SSL/TLS
-                            * At least force the password to be sent encrypted
-                            * Ideally any page using the session should have SSL
+                            * **Require** SSL/**TLS**;
+                            * At least, force the password to be sent encrypted;
+                            * Ideally any page using the session should have SSL/TLS.
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## HTTP Strict Transport Security (HSTS)
 
-                            HTTP Strict Transport Security is a security
-                            feature that lets a web site tell browsers that it
-                            should only be communicated with using HTTPS,
+                            **HTTP Strict Transport Security** is a security
+                            feature that **lets a web site tell browsers that it
+                            should only be communicated with using HTTPS**,
                             instead of using HTTP.
                             <br>
                             <br>
@@ -395,7 +407,7 @@
                     </section>
                 </section>
                 <section>
-                    <section data-markdown>
+                    <section data-markdown data-background="images/missing-function-level-ac.jpg" class="invert-color">
                         <script type="text/template">
                             # 7. Missing Function Level Access Control
                         </script>
@@ -404,15 +416,20 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * Applications do not always protect application functions properly
-                            * Misconfiguration
-                            * Forgot proper code checks
-                            * Attackers access unauthorized functionality by
-                            changing the URL or a parameter to a privileged
-                            function
-                            * Anonymous users can access private functions that aren't protected
-                            * Can compromise user accounts, administrative accounts, and unauthorized
-                            usage of privileged functionality
+                            * Applications do not always protect application functions properly;
+
+                            * Attackers **access unauthorized functionality by
+                            changing<br>the URL or a parameter to a privileged
+                            function**;
+
+                            * **Anonymous users can access private functions
+                            that aren't protected**;
+
+                            * **Misconfiguration** and **lack of checks** are the main issues;
+
+                            * Can **compromise user accounts**, administrative
+                            accounts,<br>and **allow the unauthorized use of
+                            privileged functionalities**.
                         </script>
                     </section>
                     <section data-markdown>
@@ -420,12 +437,16 @@
                             ## How To Prevent This?
 
                             * Consider every page: public or private?
-                            * Make sure you check credentials when you serve a
-                            page, picture or anything
+                            * Make sure you **check credentials** when you
+                            serve a page, picture or anything;
                             * Make sure checks are in place when authentication
-                            is required
+                            is required;
                             * **Deny all** by default, explicitly grant access
-                            to users or roles
+                            to users or roles.
+
+                            <br>
+                            <br>
+                            <i class="fa fa-book"></i> [Never Blacklist; Only Whitelist](http://phpsecurity.readthedocs.org/en/latest/Input-Validation.html#never-blacklist-only-whitelist)
                         </script>
                     </section>
                 </section>
@@ -439,18 +460,18 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * Attacker creates forged HTTP requests and tricks
-                            a victim into submitting them via image tags, XSS,
+                            * Attacker creates **forged HTTP requests and tricks
+                            a victim into submitting them** via image tags, XSS,
                             Form POSTs, or numerous other techniques. If the
-                            user is authenticated, the attack succeeds
+                            user is authenticated, the attack succeeds;
 
-                            * Attackers can create malicious web pages which
-                            generate forged requests that are indistinguishable
-                            from legitimate ones
+                            * Attackers **can create malicious web pages** which
+                            generate **forged requests that are indistinguishable
+                            from legitimate ones**;
 
-                            * Cause victim to change any data the victim is allowed
-                            to change, but also to perform any function the victim
-                            is authorized to use
+                            * Causes victim to **change any data the victim is
+                            allowed to change**, but also to **perform any function
+                            the victim is authorized to use**.
 
                             <br>
                             <i class="fa fa-bookmark"></i> [Facebook CSRF worth USD 5000](http://amolnaik4.blogspot.fr/2012/08/facebook-csrf-worth-usd-5000.html)
@@ -460,12 +481,117 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
+                            ## CSRF With GET
+
+                            Using a zero-byte image attack:
+
+                                <img src="https://bank.com/transfer.do?acct=BOB&amount=100"
+                                     height="0" width="0" />
+
+                            Using a link, asking the victim to click on it:
+
+                                <a href="http://bank.com/transfer.do?acct=BOB&amount=100">
+                                    View my Pictures!
+                                </a>
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## CSRF With POST
+
+                            A malicious page can issue a POST request to any domain:
+
+                                <form method="POST" action="http://example.org/form">
+                                    <input type="text" name="name" value="Will">
+                                    <input type="text" name="message" value="Hello, World!">
+                                    <!-- ... -->
+                                </form>
+
+                            With a few lines of JavaScript:
+
+                                $(document).ready(function() {
+                                    $('form').submit();
+                                });
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## CSRF Against RESTful Web Services
+
+                            You can change the encoding of HTML forms to `text/plain`,
+                            and do some tricks to produce parseable JSON:
+
+                                <form method="POST" action="http://example.org/form"
+                                      style="visibility: hidden" enctype="text/plain">
+                                    <input type="text"
+                                           name='{"id": 0,
+                                               "name": "Will",
+                                               "message": "Hello, World!",
+                                               "timestamp": "20140219"}//'
+                                           value="dummy" />
+                                    <input type="submit" value="Send" />
+                                </form>
+
+                            The above form produces a request body looking like this:
+
+                                {
+                                    "id": 0,
+                                    "name": "Will",
+                                    "message": "Hello, World!",
+                                    "timestamp": "20140219"
+                                }//=dummy
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
                             ## How To Prevent This?
 
-                            * Don't do "things" using the `GET` method
-                            * Create one unique token per user (at least once per session)
-                            * Include/verify it in every sensitive form
-                            * Avoid putting this token in the query string
+                            * Don't do "things" using the `GET` method;
+                            * Create **one unique token per user** (at least once per session);
+                            * Include/verify it in every sensitive form;
+                            * Avoid putting this token in the query string.
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Stateless vs Stateful
+
+                            Technique seen before uses **tokens issued by the
+                            server that the client has to post back**. The server
+                            **validates the request by comparing the incoming
+                            token with its copy**. This is **stateful!**
+                            <br>
+                            <br>
+
+                            ![](images/csrf.png)
+
+                            <br>
+                            **Stateless** protection needed!
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## CSRF Protection With Double Submit
+
+                            **Double submit** technique is a variation of the
+                            token scheme where **the client is required to
+                            submit the token both as a request parameter and as
+                            a cookie**.
+                            <br>
+                            <br>
+                            A malicious page on another domain **cannot read the
+                            <br>anti-CSRF cookie** before its request and thus cannot
+                            <br> include it as a request parameter.
+                            <br>
+                            <br>
+                            <p class="left">
+                                <i class="fa fa-book"></i> [Stateless CSRF Protection](http://appsandsecurity.blogspot.fr/2012/01/stateless-csrf-protection.html)
+                                <br>
+                                <i class="fa fa-book"></i> [Triple Submit CSRF Protection](http://www.slideshare.net/johnwilander/stateless-anticsrf)
+                                <br>
+                                <i class="fa fa-book"></i> [Stateful vs Stateless CSRF Defences: Know The Difference](http://blog.astrumfutura.com/2013/08/stateful-vs-stateless-csrf-defences-know-the-difference/)
+
+                            </p>
                         </script>
                     </section>
                 </section>
@@ -479,35 +605,38 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * Attacker identifies a weak component through
-                            scanning or manual analysis. He customizes the
-                            exploit as needed and executes the attack
+                            * Attacker identifies **a weak component through
+                            scanning or manual analysis**. He customizes the
+                            exploit as needed and executes the attack;
 
-                            * Virtually every application has these issues
-                            because most development teams don’t focus on
-                            ensuring their components/libraries are up to date.
-                            In many cases, the developers don’t even know all
+                            * Virtually **every application has these issues**
+                            because most development teams don't focus on
+                            ensuring their libraries<br>are up to date;
+
+                            * In many cases, the developers don't even know all
                             the components they are using, never mind their
-                            versions. Component dependencies make things even
-                            worse.
+                            versions. **Component dependencies make things even
+                            worse**;
 
-                            * The impact could range from minimal to complete
-                            host takeover and data compromise.
+                            * The impact could range **from minimal to complete
+                            host takeover and data compromise**.
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## How To Prevent This?
 
-                            * Keep components up to date
-                            * Identify all components and versions
-                            * Monitor security of these components
-                            * SensioLabs [Security Advisories Checker](https://security.sensiolabs.org/)
+                            * **Keep** components **up to date**;
+                            * Identify all components and versions;
+                            * Monitor security of these components;
+                            * Subscribe to security mailing-lists, twitter accounts
+                              <br>(e.g. [@debian_security](https://twitter.com/debian_security));
+                            * SensioLabs [Security Advisories Checker](https://security.sensiolabs.org/) in PHP.
                         </script>
                     </section>
                 </section>
                 <section>
-                    <section data-markdown>
+                    <section data-markdown data-background="images/redirect.jpg" class="invert-color">
                         <script type="text/template">
                             # 10. Unvalidated Redirects and Forwards
                         </script>
@@ -516,16 +645,18 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * Attacker links to unvalidated redirect and tricks
-                            victims into clicking it
+                            * Attacker **links to unvalidated redirect and tricks
+                            victims<br>into clicking it**;
 
-                            * Victims are more likely to click on it, since the link is to a valid site
+                            * Attacker targets unsafe forward to bypass
+                            security checks;
 
-                            * Attacker targets unsafe forward to bypass security checks
+                            * Victims are more likely to click on it since the
+                            link is to a valid website;
 
-                            * Such redirects may attempt to install malware or
+                            * Such redirects may attempt to **install malware or
                             trick victims into disclosing passwords or other
-                            sensitive information. Unsafe forwards may allow
+                            sensitive information**. Unsafe forwards may allow
                             access control bypass.
                         </script>
                     </section>
@@ -533,33 +664,35 @@
                         <script type="text/template">
                             ## Clickjacking
 
-                            A malicious technique of tricking a Web user into
+                            A malicious technique of **tricking a user into
                             clicking on something different from what the user
-                            perceives they are clicking on.
-
-                            Stop Clickjacking with one simple header:
+                            perceives<br>they are clicking on**.
+                            <br>
+                            <br>
+                            Stop clickjacking with one simple header:
 
                                 X-Frame-Options: DENY|SAMEORIGIN
 
-                            This will cause browsers to refuse requests for
-                            framing in that page.  Most websites do not use
-                            frames and do not need to be frame-able.
+                            <br>
+                            This will cause browsers to **refuse requests for
+                            framing in<br>that page**. Most websites do not use
+                            frames, and do not<br>need to be frame-able anyway.
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## How To Prevent This?
 
-                            * Avoid using redirects and forwards
-                            * If used, don’t involve user parameters in
-                            calculating the destination
-                            * If destination parameters can’t be avoided,
+                            * **Avoid using redirects and forwards**;
+                            * If used, don't involve user parameters in
+                            calculating the destination;
+                            * If destination parameters can't be avoided,
                             ensure that the supplied value is valid, and
-                            authorized for the user. It is recommended that
-                            any such destination parameters be a mapping value,
-                            rather than the actual URL or portion of the URL,
-                            and that server side code translate this mapping to
-                            the target URL.
+                            authorized for the user.
+                            <br>It is recommended that any such destination
+                            parameters be a **mapping value**, rather than the
+                            actual URL or portion of the URL, and that server
+                            side code translate this mapping to the target URL.
                         </script>
                     </section>
                 </section>
@@ -611,6 +744,7 @@
                 progress: true,
                 history: true,
                 center: true,
+                slideNumber: true,
 
                 theme: Reveal.getQueryHash().theme,
                 transition: Reveal.getQueryHash().transition || 'concave',
@@ -620,7 +754,6 @@
                     { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                     { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                     { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-                    //{ src: 'js/pageNumbers.js' },
                 ]
             });
         </script>
