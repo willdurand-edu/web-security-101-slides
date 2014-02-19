@@ -257,8 +257,9 @@
 
                             <img src="images/csp.png" class="no-border" />
 
-                            <br>
                             <i class="fa fa-book"></i> [An Introduction to Content Security Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/)
+                            <br>
+                            <i class="fa fa-bookmark"></i> [Using Content-Security-Policy for Evil](http://homakov.blogspot.fr/2014/01/using-content-security-policy-for-evil.html)
                         </script>
                     </section>
                 </section>
@@ -370,15 +371,23 @@
                             ## Insecure Cryptographic Storage
 
                             * **Encrypt** sensitive data;
+
                             * **Encrypt** offsite backups;
+
                             * Use **strong standard encryption algorithms**;
+
                             * Change your (strong) encryption key regularly;
+
                             * Don't store sensitive data unnecessarily;
+
                             * **Salt** your passwords (yep, again);
+
                             * **Disable autocomplete on forms** collecting
                             sensitive data;
+
                             * **Disable caching for pages that contain
                             sensitive data**;
+
                             * Check with a crypto expert.
                         </script>
                     </section>
@@ -387,7 +396,9 @@
                             ## Insufficient Transport<br>Layer Protection
 
                             * **Require** SSL/**TLS**;
+
                             * At least, force the password to be sent encrypted;
+
                             * Ideally any page using the session should have SSL/TLS.
                         </script>
                     </section>
@@ -476,10 +487,11 @@
                             allowed to change**, but also to **perform any function
                             the victim is authorized to use**.
 
+                            <i class="fa fa-bookmark"></i> [Facebook CSRF worth USD 5000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](http://amolnaik4.blogspot.fr/2012/08/facebook-csrf-worth-usd-5000.html)
                             <br>
-                            <i class="fa fa-bookmark"></i> [Facebook CSRF worth USD 5000](http://amolnaik4.blogspot.fr/2012/08/facebook-csrf-worth-usd-5000.html)
+                            <i class="fa fa-bookmark"></i> [Does Google Understand CSRF?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](http://cryptogasm.com/2012/02/does-google-understand-csrf/)
                             <br>
-                            <i class="fa fa-bookmark"></i> [Does Google Understand CSRF?&nbsp;&nbsp;&nbsp;&nbsp;](http://cryptogasm.com/2012/02/does-google-understand-csrf/)
+                            <i class="fa fa-bookmark"></i> [A few CSRF-like vulnerable examples.](http://homakov.blogspot.fr/2012/03/hacking-skrillformer-moneybookers.html)
                         </script>
                     </section>
                     <section data-markdown>
@@ -550,8 +562,11 @@
                             ## How To Prevent This?
 
                             * Don't do "things" using the `GET` method;
+
                             * Create **one unique token per user** (at least once per session);
+
                             * Include/verify it in every sensitive form;
+
                             * Avoid putting this token in the query string.
                         </script>
                     </section>
@@ -682,6 +697,9 @@
                             This will cause browsers to **refuse requests for
                             framing in<br>that page**. Most websites do not use
                             frames, and do not<br>need to be frame-able anyway.
+
+                            <br>
+                            <i class="fa fa-bookmark"></i> [X-Frame-Options (XFO) Detection from JavaScript](http://blog.whitehatsec.com/x-frame-options-xfo-detection-from-javascript/)
                         </script>
                     </section>
                     <section data-markdown>
@@ -689,8 +707,10 @@
                             ## How To Prevent This?
 
                             * **Avoid using redirects and forwards**;
+
                             * If used, don't involve user parameters in
                             calculating the destination;
+
                             * If destination parameters can't be avoided,
                             ensure that the supplied value is valid, and
                             authorized for the user.
@@ -698,6 +718,9 @@
                             parameters be a **mapping value**, rather than the
                             actual URL or portion of the URL, and that server
                             side code translate this mapping to the target URL.
+
+                            <br>
+                            <i class="fa fa-bookmark"></i> [How I hacked Github again.](http://homakov.blogspot.fr/2014/02/how-i-hacked-github-again.html)
                         </script>
                     </section>
                 </section>
@@ -732,6 +755,53 @@
                             ## Cookie Security
 
                             <i class="fa fa-book"></i> [Understanding Cookie Security](http://kuza55.blogspot.fr/2008/02/understanding-cookie-security.html)
+                            <br>
+                            <br>
+                            <i class="fa fa-bookmark"></i> [Cookie Bomb or let's break the Internet.](http://homakov.blogspot.fr/2014/01/cookie-bomb-or-lets-break-internet.html)
+                            <br>
+                            <i class="fa fa-bookmark"></i> [Rethinking Cookies: originOnly&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](http://homakov.blogspot.fr/2013/02/rethinking-cookies-originonly.html)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## JSON Hijacking
+
+                            A script that contains a JSON array is a valid
+                            JavaScript script,<br>and can thus be executed.
+
+                            By **overriding the global array constructor or
+                            accessor methods**, then including a JSON URL
+                            via a `<script>` tag,<br>a malicious third-party
+                            website could steal the data from the<br>JSON
+                            response (that must be a JSON array).
+
+                            By putting a `while(1);` at the start, the script
+                            will hang instead.
+
+                            <br>
+                            <p class="left">
+                                <i class="fa fa-bookmark"></i> [Re-Securing JSON](http://ejohn.org/blog/re-securing-json/)
+                                <br>
+                                <i class="fa fa-bookmark"></i> [JSON Hijacking](http://haacked.com/archive/2009/06/25/json-hijacking.aspx/)
+                                <br>
+                                <i class="fa fa-bookmark"></i> [Why does Google prepend while(1); to their JSON responses?](http://stackoverflow.com/questions/2669690/why-does-google-prepend-while1-to-their-json-responses)
+                            </p>
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## JSONP
+
+                            Always sanitize the `callback` parameter.
+
+                            <br>
+                            JsonpCallbackValidator allows you to validate a
+                            <br>JSONP callback in order to prevent XSS attacks:
+
+                            <i class="fa fa-github"></i> [willdurand/JsonpCallbackValidator](https://github.com/willdurand/JsonpCallbackValidator)
+                            <br>
+                            <br>
+                            <i class="fa fa-bookmark"></i> [Are you sure you use JSONP properly?](http://homakov.blogspot.fr/2013/02/are-you-sure-you-use-jsonp-properly.html)
                         </script>
                     </section>
                     <section data-markdown>
