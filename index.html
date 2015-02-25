@@ -44,7 +44,7 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            # OWASP Top 10
+                            # OWASP Top 10 (2013)
 
                             1. Injection
                             2. Broken Authentication and Session Management
@@ -89,7 +89,7 @@
                             ## SQL Injection
 
                             Unescaped user input causes the **premature end of a SQL query**,
-                            <br>and allows a malicious query to be executed:
+                            and allows a malicious query to be executed:
                             <br>
                             <br>
 
@@ -262,11 +262,36 @@
                             <i class="fa fa-bookmark"></i> [Using Content-Security-Policy for Evil](http://homakov.blogspot.fr/2014/01/using-content-security-policy-for-evil.html)
                         </script>
                     </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## X-XSS-Protection
+
+                            The `X-XSS-Protection` header allows to configure a
+                            user-agent's built in reflective XSS protection.
+                            <br>
+                            <br>
+
+                                X-XSS-Protection: 1
+
+                            <br>
+
+                            * `0` - Disables the XSS Protections offered by the user-agent
+                            * `1` - Enables the XSS Protection
+                            * `1; mode=block` - Prevents browser (IE8+ and
+                            Webkit browsers) to render pages (instead of
+                            sanitizing)
+
+                            <br>
+                            <i class="fa fa-book"></i> [Controlling the XSS Filter](http://blogs.msdn.com/b/ieinternals/archive/2011/01/31/controlling-the-internet-explorer-xss-filter-with-the-x-xss-protection-http-header.aspx)
+                            <br>
+                            <i class="fa fa-warning"></i> `mode=block` creates a [vulnerability in IE8](http://hackademix.net/2009/11/21/ies-xss-filter-creates-xss-vulnerabilities/)
+                        </script>
+                    </section>
                 </section>
                 <section>
                     <section data-markdown>
                         <script type="text/template">
-                            # 4. Insecure Direct Object References
+                            # 4. Insecure Direct Object References
                         </script>
                     </section>
                     <section data-markdown>
@@ -341,7 +366,7 @@
                 <section>
                     <section data-markdown data-background="images/sensitive-data-exposure.jpg" class="invert-color">
                         <script type="text/template">
-                            # 6. Sensitive Data Exposure
+                            # 6. Sensitive Data Exposure
                         </script>
                     </section>
                     <section data-markdown>
@@ -419,11 +444,32 @@
                             <i class="fa fa-book"></i> [HTTP Strict Transport Security](https://developer.mozilla.org/en-US/docs/Security/HTTP_Strict_Transport_Security)
                         </script>
                     </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Public Key Pinning (PKP)
+
+                            Public Key Pinning **prevents Man-In-The-Middle
+                            attacks** due to rogue CAs not on the site's list,
+                            by **binding a set of hashes public keys to domain
+                            names**. It is a mechanism:
+
+                            * **for sites** to **specify which certificate
+                            authorities have issued valid certs for that
+                            site**,
+
+                            * and **for user-agents** to **reject TLS connections**
+                            to those sites **if** the **certificate is not issued by
+                            a known-good CA**.
+
+                            <br>
+                            <i class="fa fa-book"></i> [SecurityEngineering/Public Key Pinning](https://wiki.mozilla.org/SecurityEngineering/Public_Key_Pinning)
+                        </script>
+                    </section>
                 </section>
                 <section>
                     <section data-markdown data-background="images/missing-function-level-ac.jpg" class="invert-color">
                         <script type="text/template">
-                            # 7. Missing Function Level Access Control
+                            # 7. Missing Function Level Access Control
                         </script>
                     </section>
                     <section data-markdown>
@@ -652,6 +698,8 @@
                             * SensioLabs [Security Advisories Checker](https://security.sensiolabs.org/) in PHP.
                             * Make sure your components aren't verbose.
                               <br>(e.g. Webserver tellings its name and version)
+                            * Require [`roave/security-advisories:dev-master`](https://github.com/Roave/SecurityAdvisories)
+                              in your `composer.json`
                         </script>
                     </section>
                 </section>
@@ -837,6 +885,8 @@
                         # Learn More!
 
                         <i class="fa fa-book"></i> [OWASP Cheat Sheet Series](https://www.owasp.org/index.php/Cheat_Sheets)
+                        <br>
+                        <i class="fa fa-book"></i> [HTML5 Security Cheatsheet](https://html5sec.org/)
                     </script>
                 </section>
                 <section data-markdown>
