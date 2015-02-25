@@ -660,16 +660,19 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## Same-Origin Policy (1/4)
+                            ## Same-Origin Policy (1/5)
 
                             The same-origin policy **restricts how** a document
                             or **script** loaded from one origin **can
                             interact** with a resource from another origin.
+
+                            <br>
+                            <img src="images/sameorigin.jpg" class="no-border" />
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## Same-Origin Policy (2/4)
+                            ## Same-Origin Policy (2/5)
 
                             <br>
                             ### `document.domain`
@@ -690,7 +693,7 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## Same-Origin Policy (3/4)
+                            ## Same-Origin Policy (3/5)
 
                             <br>
                             ### `window.postMessage`
@@ -711,7 +714,30 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## Same-Origin Policy (4/4)
+                            ## Same-Origin Policy (4/5)
+
+                            <br>
+                            ### JSON With Padding (JSONP)
+
+                            It is a communication technique used in JavaScript
+                            applications to request data from a server in a
+                            different domain:
+
+                                <!-- Request sent via a `script` tag
+                                <script src="https://example.com/status.json?callback=apiStatus"></script>
+                                -->
+
+                            <p></p>
+
+                                <!-- Data received as an execution of the predefined function
+                                <script>function apiStatus(data) { console.log(data.status); }</script>
+                                -->
+
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Same-Origin Policy (5/5)
 
                             <br>
                             ### Cross-Origin Resource Sharing (CORS)
