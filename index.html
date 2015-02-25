@@ -687,7 +687,7 @@
                             <br>
                             This method is **not suited for cross-domain
                             resources** as browsers (e.g. Firefox) will not
-                            allow you to change the `document.domain` to
+                            allow you to change the `document.domain` to a
                             different domain.
                         </script>
                     </section>
@@ -712,28 +712,21 @@
                             **Check the identity of the sender of the message!**
                         </script>
                     </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## Same-Origin Policy (4/5)
+                    <section>
+                        <h2>Same-Origin Policy (4/5)</h2>
 
-                            <br>
-                            ### JSON With Padding (JSONP)
+                        <br>
+                        <h3>JSON With Padding (JSONP)</h3>
 
-                            It is a communication technique used in JavaScript
+                        <p>It is a communication technique used in JavaScript
                             applications to request data from a server in a
-                            different domain:
+                            different domain:</p>
 
-                                <!-- Request sent via a `script` tag
-                                <script src="https://example.com/status.json?callback=apiStatus"></script>
-                                -->
+                        <pre><code class="html">&lt;!-- Request sent via a `script` tag --&gt;
+&lt;script src="https://example.com/status.json?callback=apiStatus"&gt;&lt;/script&gt;</code></pre>
 
-                            <p></p>
-
-                                <!-- Data received as an execution of the predefined function
-                                <script>function apiStatus(data) { console.log(data.status); }</script>
-                                -->
-
-                        </script>
+                        <pre><code class="html">&lt;!-- Data received as an execution of the predefined function --&gt;
+&lt;script&gt;function apiStatus(data) { console.log(data.status); }&lt;/script&gt;</code></pre>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
