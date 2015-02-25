@@ -658,6 +658,82 @@
                             </p>
                         </script>
                     </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Same-Origin Policy (1/4)
+
+                            The same-origin policy **restricts how** a document
+                            or **script** loaded from one origin **can
+                            interact** with a resource from another origin.
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Same-Origin Policy (2/4)
+
+                            <br>
+                            ### `document.domain`
+
+                                document.domain = "example.org";
+
+                            <br>
+                            You would be allowed to execute JavaScript from an
+                            **iframe** sourced on a subdomain, on a page sourced
+                            on the main domain.
+
+                            <br>
+                            This method is **not suited for cross-domain
+                            resources** as browsers (e.g. Firefox) will not
+                            allow you to change the `document.domain` to
+                            different domain.
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Same-Origin Policy (3/4)
+
+                            <br>
+                            ### `window.postMessage`
+
+                            The `window.postMessage` method, when called,
+                            causes a `MessageEvent` (containing a `origin`
+                            property) to be dispatched at the target window
+                            when any pending script that must be executed
+                            completes.
+
+                            <br>
+                            Any window may access this method on any other
+                            window, at any time, regardless of the location of
+                            the document in the window, to send it a message.
+
+                            **Check the identity of the sender of the message!**
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Same-Origin Policy (4/4)
+
+                            <br>
+                            ### Cross-Origin Resource Sharing (CORS)
+
+                            [CORS](http://www.w3.org/TR/access-control/)
+                            defines how the browser and server<br>must communicate
+                            when accessing sources across<br>origins by means of
+                            custom HTTP headers:
+
+                            ``` bash
+                            # Client sends a request with this extra header:
+                            Origin: http://williamdurand.fr
+
+                            # Server sends this header along with the response:
+                            # `*` is a valid value and stands for "public resource"
+                            Access-Control-Allow-Origin: http://williamdurand.fr
+                            ```
+
+                            If this header is missing, or the origins don't
+                            match,<br>then the browser disallows the request.
+                        </script>
+                    </section>
                 </section>
                 <section>
                     <section data-markdown>
