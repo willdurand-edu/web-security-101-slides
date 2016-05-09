@@ -25,3 +25,11 @@ img.no-border {
 p.left {
     text-align: left !important;
 }
+
+.no-bullets li {
+    list-style-type: none;
+}
+
+.justified p {
+    text-align: justify !important;
+}
