@@ -832,6 +832,27 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
+                            ## How To Prevent This?
+
+                            * **Avoid using redirects and forwards**;
+
+                            * If used, don't involve user parameters in
+                            calculating the destination;
+
+                            * If destination parameters can't be avoided,
+                            ensure that the supplied value is valid, and
+                            authorized for the user.
+                            <br>It is recommended that any such destination
+                            parameters be a **mapping value**, rather than the
+                            actual URL or portion of the URL, and that server
+                            side code translate this mapping to the target URL.
+
+                            <br>
+                            <i class="fa fa-bookmark"></i> [How I hacked Github again.](http://homakov.blogspot.fr/2014/02/how-i-hacked-github-again.html)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
                             ## Clickjacking
 
                             A malicious technique of **tricking a user into
@@ -854,23 +875,22 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## How To Prevent This?
+                            ## Pastejacking
 
-                            * **Avoid using redirects and forwards**;
-
-                            * If used, don't involve user parameters in
-                            calculating the destination;
-
-                            * If destination parameters can't be avoided,
-                            ensure that the supplied value is valid, and
-                            authorized for the user.
-                            <br>It is recommended that any such destination
-                            parameters be a **mapping value**, rather than the
-                            actual URL or portion of the URL, and that server
-                            side code translate this mapping to the target URL.
+                            Browsers now allow developers to automatically add
+                            content to a user's clipboard, following certain
+                            conditions.
 
                             <br>
-                            <i class="fa fa-bookmark"></i> [How I hacked Github again.](http://homakov.blogspot.fr/2014/02/how-i-hacked-github-again.html)
+                            Pastejacking exploits this to **trick a
+                            user into running commands they didn't want to get
+                            ran, and gain code execution**.
+
+                            <br>
+                            TL;DR: **Do not (directly) copy/paste code!**
+
+                            <br>
+                            <i class="fa fa-bookmark"></i> [On Pastejacking](https://github.com/dxa4481/Pastejacking)
                         </script>
                     </section>
                 </section>
